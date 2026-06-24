@@ -1,0 +1,14 @@
+<?php
+declare(strict_types=1);
+
+return [
+    'driver' => 'mysql',
+    'mysql' => [
+        'host' => 'localhost',
+        'port' => 3306,
+        'database' => '발급받은_DB명',
+        'username' => '발급받은_DB사용자명',
+        'password' => '발급받은_DB비밀번호',
+        'charset' => 'utf8mb4',
+    ],
+];

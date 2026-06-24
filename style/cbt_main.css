@@ -1,0 +1,661 @@
+/* 기본 스타일 초기화 및 변수 설정 */
+:root {
+  --main-header-height: 58px;
+  --color-header-top: #f5f5f5; /* 헤더 상단 배경색 */
+  --color-header-bottom: #e4e4e4; /* 헤더 하단 배경색 */
+  --color-user-info-top: #E2E6EC; /* 수험정보 상단 배경색 */
+  --color-user-info-bottom: #D5D9DE; /* 수험정보 하단 배경색 */
+  --color-timer-bg: #F2F2F2; /* 타이머 배경색 */
+  --color-test-icon: #009999; /* 시험 아이콘 배경색 */
+  --color-omr-header-bg: #3664B1; /* OMR 헤더 배경색 */
+  --color-omr-row-bg: #dbe9fd; /* OMR 행 배경색 */
+  --color-omr-row-border: #bfd8fb; /* OMR 행 왼쪽 테두리색 */
+  --color-light-gray: #eff1f4; /* 툴바 배경색 */
+  --color-foot-bg: #CFD2D8; /* 하단 배경색 */
+  --color-white: #ffffff;
+  --color-blue-text: #1e40af; /* 문제 번호, 헤더 글자 등 */
+  --color-timer-red: #ef4444; /* 남은 시간 빨간색 */
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Pretendard, sans-serif;
+  color: #1a202c;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* 1. 메인 헤더 */
+.main-header {
+  box-sizing: content-box;
+  background: linear-gradient(
+    to bottom,
+    var(--color-header-top) 0 50%,
+    var(--color-header-bottom) 50% 100%
+  );
+  color: var(--color-white);
+  border-bottom: 5px solid #3664B1;
+  height: var(--main-header-height);
+  padding: 0 0 0 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.test-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: var(--color-test-icon);
+  border: 2px solid var(--color-white);
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.home-link-icon {
+  padding: 0;
+  cursor: pointer;
+}
+
+.home-link-icon:focus {
+  outline: 2px solid rgba(54, 100, 177, 0.35);
+  outline-offset: 2px;
+}
+
+.test-icon::before,
+.test-icon::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+}
+
+.test-icon::before {
+  width: 1.5625rem;
+  height: 1.5625rem;
+  background: #f4c430;
+}
+
+.test-icon::after {
+  width: 0.75rem;
+  height: 0.75rem;
+  background: var(--color-white);
+}
+
+.test-title {
+  color: #000000; /* 헤더 내 어두운 파란색 텍스트 반영 */
+  font-size: 1.5rem;
+  font-weight: bold;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  font-size: 0.875rem;
+  color: #a0aec0; /* 수험정보 등 연한 글자색 반영 */
+}
+
+.user-info {
+  width: 221px;
+  height: var(--main-header-height);
+  align-self: stretch;
+  margin-block: 0;
+  padding-right: 5px;
+  color: #000000;
+  background: linear-gradient(
+    to bottom,
+    var(--color-user-info-top) 0 50%,
+    var(--color-user-info-bottom) 50% 100%
+  );
+  display: grid;
+  grid-template-columns: 1fr 144px;
+  column-gap: 3px;
+  row-gap: 0.25rem;
+  align-items: center;
+  line-height: 1.4;
+}
+
+.user-info label {
+  text-align: right;
+}
+
+.user-info textarea {
+  width: 144px;
+  height: 1.5rem;
+  padding: 0.125rem 0.25rem;
+  resize: none;
+  overflow: hidden;
+  font: inherit;
+}
+
+.user-info textarea[readonly] {
+  border: 1px solid #aeb6c2;
+  background: #f8fafc;
+  color: #111827;
+  cursor: default;
+}
+
+.user-info textarea[readonly]:focus {
+  outline: none;
+}
+
+.timer-group {
+  width: 239px;
+  height: var(--main-header-height);
+  background-color: var(--color-timer-bg);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.timer-icon {
+  padding-left: 10px;
+  color: black;
+  font-size: 45px;
+}
+
+.timer-texts { line-height: 1.4; }
+
+.time-limit {
+  color: #000000;
+}
+
+.time-remaining {
+  color: var(--color-timer-red);
+}
+
+/* 2. 툴바 */
+.toolbar {
+  background-color: var(--color-light-gray);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+}
+
+.stats-group {
+  border-left: 1px solid #ccc;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 1rem;
+  padding:3px 23px 3px 12px;
+}
+
+.stats-count {
+  color: var(--color-timer-red);
+  font-weight: bold;
+}
+
+/* 3. 메인 콘텐츠 (플렉스 구조) */
+.main-content {
+  flex: 1;
+  display: flex;
+  overflow: hidden; /* 영역 밖으로 안 나가게 */
+  margin-top: 5px;
+}
+
+.exam-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border: #ccc 1px solid;
+  margin-left: 6px;
+  margin-bottom: 17px;
+}
+
+/* 3-1. 문제 영역 */
+.questions-area {
+  flex: 1;
+  background-color: var(--color-white);
+  padding: 2rem;
+  overflow: hidden;
+}
+
+.question-container { margin-bottom: 2.5rem; }
+
+.question-container:last-child { margin-bottom: 0; }
+
+.question-header {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.question-number {
+  font-weight: bold;
+  font-size: 1.125rem;
+  color: #1a202c;
+}
+
+.question-text {
+  flex: 1;
+  font-family: Gulim, "굴림", sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.subject-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  margin-right: 8px;
+  padding: 2px 8px;
+  border: 1px solid #bfd8fb;
+  border-radius: 4px;
+  background-color: #eef6ff;
+  color: #3664B8;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  vertical-align: middle;
+}
+
+.options-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-left: 2rem;
+}
+
+.question-actions {
+  margin: 1rem 0 0 2rem;
+}
+
+.explanation-toggle {
+  height: 30px;
+  padding: 0 14px;
+  border: 1px solid #9ca3af;
+  border-radius: 4px;
+  background: linear-gradient(to bottom, #ffffff, #e5e7eb);
+  color: #111827;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.explanation-toggle:hover {
+  background: linear-gradient(to bottom, #f8fafc, #dbeafe);
+  border-color: #3664B1;
+}
+
+.option {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 0.75rem;
+  width: fit-content;
+  max-width: 100%;
+  font-family: Gulim, "굴림", sans-serif;
+  font-size: 0.9375rem;
+  color: #4a5568;
+  cursor: pointer;
+}
+
+.option-number {
+  flex: 0 0 auto;
+  align-self: center;
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  color: #1a202c;
+  line-height: 1;
+}
+
+.option-content {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  line-height: 1.5;
+}
+
+.option-text:empty {
+  display: none;
+}
+
+.question-image {
+  display: block;
+  width: var(--image-width, 100%);
+  max-width: min(100%, 720px);
+  max-height: 360px;
+  margin-top: 0.75rem;
+  object-fit: contain;
+}
+
+.option input[type="radio"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.option.selected .option-number {
+  color: transparent;
+  font-weight: 400;
+}
+
+.option.selected .option-number::after {
+  content: "";
+  position: absolute;
+  inset: 0.28rem;
+  border-radius: 50%;
+  background-color: #000000;
+}
+
+.result-box {
+  margin: 1rem 0 0 2rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 4px;
+  background-color: #f8fafc;
+  color: #1a202c;
+  font-family: Gulim, "굴림", sans-serif;
+  line-height: 1.6;
+  font-size: 0.9375rem;
+}
+
+.result-box.correct {
+  border-color: #86efac;
+  background-color: #f0fdf4;
+}
+
+.result-box.wrong {
+  border-color: #fecaca;
+  background-color: #fff7f7;
+}
+
+.explanation {
+  margin-top: 0.5rem;
+  color: #334155;
+}
+
+.explanation-option-number {
+  display: inline-block;
+  margin: 0 0.08em;
+  color: #111827;
+  font-size: 1.3em;
+  font-weight: 800;
+  line-height: 1;
+  vertical-align: -0.05em;
+}
+
+/* 3-2. OMR 사이드바 (고정 넓이) */
+.omr-sidebar {
+  width: 229px;
+  color: var(--color-white);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  margin-left: 10px;
+}
+
+.omr-header {
+  background-color: var(--color-omr-header-bg);
+  padding: 1rem;
+  font-size: 1.125rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.omr-sheet {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.omr-loading {
+  padding: 1rem;
+  color: #3664B8;
+  background-color: var(--color-omr-row-bg);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.omr-row {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+}
+
+.row-num {
+  width: 46px;
+  height: 38px;
+  background-color: var(--color-omr-row-bg);
+  border-left: 1px solid var(--color-omr-row-border);
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.875rem;
+  color: #3664B8;
+  cursor: pointer;
+}
+
+.omr-circles { display: flex; gap: 0.7rem; }
+
+.omr-circle {
+  position: relative;
+  width: 1.4em;
+  height: 1.4em;
+  border: 0;
+  background: transparent;
+  color: #4987DE;
+  font-size: 1.5rem;
+  font-family: inherit;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.omr-circle.marked {
+  color: transparent;
+  font-weight: 400;
+}
+
+.omr-circle.marked::after {
+  content: "";
+  position: absolute;
+  inset: 0.16em;
+  border-radius: 50%;
+  background-color: #4987DE;
+}
+
+.nav-page-btn:disabled {
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+/* 4. 하단 */
+footer {
+  background-color: var(--color-foot-bg);
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border-top: 1px solid #cbd5e0;
+}
+
+.footer-center {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-page-btn,
+.action-btn {
+  height: 35px;
+  border-radius: 15px;
+  box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.18);
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-page-btn {
+  width: 91px;
+  background: linear-gradient(to bottom, #fff 0 50%, #e4e4e4 50% 100%);
+  border: 1px solid #cbd5e0;
+  color: #3664B8;
+}
+
+.page-info {
+  font-size: 0.875rem;
+  color: #3664B1;
+  font-weight: bold;
+}
+
+.footer-right {
+  position: absolute;
+  right: 1.5rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.action-btn {
+  width: 130px;
+  padding: 0;
+  border: none;
+  gap: 4px;
+}
+
+.action-btn .material-symbols-outlined {
+  font-size: 20px;
+}
+
+.action-btn.unanswered {
+  background: linear-gradient(to bottom, #fff 0 50%, #e4e4e4 50% 100%);
+  color: #3664B8;
+}
+
+.action-btn.submit {
+  background: linear-gradient(to bottom, #1FB2B2 0 50%, #009999 50% 100%);
+  color: var(--color-white);
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(15, 23, 42, 0.36);
+}
+
+.modal-backdrop[hidden] {
+  display: none;
+}
+
+.unanswered-modal {
+  width: min(420px, 100%);
+  max-height: min(520px, calc(100vh - 48px));
+  border: 1px solid #94a3b8;
+  background: #ffffff;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.28);
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-title-row {
+  min-height: 48px;
+  padding: 0 12px 0 18px;
+  border-bottom: 1px solid #cbd5e1;
+  background: linear-gradient(to bottom, #f8fafc 0 50%, #e2e8f0 50% 100%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.modal-title-row h2 {
+  color: #111827;
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.modal-close {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #94a3b8;
+  background: #ffffff;
+  color: #111827;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.unanswered-list {
+  padding: 18px;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(46px, 1fr));
+  gap: 8px;
+}
+
+.unanswered-number {
+  height: 36px;
+  border: 1px solid #9db8e0;
+  border-radius: 4px;
+  background: #eef6ff;
+  color: #1e40af;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.unanswered-number:hover {
+  border-color: #3664B1;
+  background: #dbeafe;
+}
+
+.modal-empty {
+  grid-column: 1 / -1;
+  color: #475569;
+  font-size: 15px;
+  line-height: 1.5;
+  text-align: center;
+}
